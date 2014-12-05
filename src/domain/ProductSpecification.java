@@ -15,4 +15,9 @@ public class ProductSpecification {
 	public int getUPC() { return upc;	}
 	public float getPrice() { return price; }
 	public String getDescription() { return description; }
+
+	public void makeLineItem( Sale sale, int quantity )
+	{
+		sale.lineItems.addElement( new SaleLineItem( this, quantity ) );
+	}
 }
