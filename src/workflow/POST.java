@@ -39,7 +39,7 @@ public class POST {
 
         public float getTotal()
         {
-          return sale.total();
+          return sale.total(sale.payment);
         }
 
 	public Sale getSale()

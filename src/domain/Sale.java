@@ -3,14 +3,14 @@ package domain;
 import java.util.*;
 
 public class Sale {
-	private Vector lineItems = new Vector();
+	Vector lineItems = new Vector();
 	private Date date = new Date();
 	private boolean isComplete = false;
-	private Payment payment;
+	public Payment payment;
 
 	public float getBalance()
 	{
-		return payment.getAmount() - total();
+		return payment.getAmount() - total(payment);
 	}
 
 	public void becomeComplete()
@@ -25,20 +25,20 @@ public class Sale {
 		lineItems.addElement( new SaleLineItem( spec, quantity ) );
 	}
 
-	public float total()
+	public void makePayment( float cashTendered )
+	{
+		payment = new Payment( cashTendered );
+	}
+
+	public float total(Payment payment)
 	{
 		float total = 0;
 		Enumeration	e = lineItems.elements();
-
+	
 		while( e.hasMoreElements() )
 			{
 			total += ( (SaleLineItem) e.nextElement() ).subtotal();
 			}
 		return total;
-	}
-
-	public void makePayment( float cashTendered )
-	{
-		payment = new Payment( cashTendered );
 	}
 }
