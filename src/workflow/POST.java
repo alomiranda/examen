@@ -5,7 +5,7 @@ import domain.*;
 
 public class POST {
 	private ProductCatalog productCatalog;
-	private Sale sale;
+	public Sale sale;
 
 	public POST( ProductCatalog catalog )
 	{
@@ -19,28 +19,18 @@ public class POST {
 
 	public void EnterItem( int upc, int quantity )
 	{
-		if( isNewSale() )
+		if( sale.isNewSale() )
 		{
 			sale = new Sale();
 		}
 		ProductSpecification spec = productCatalog.specification( upc );
-		sale.makeLineItem( spec, quantity );
+		spec.makeLineItem( sale, quantity );
 	}
 
 	public void makePayment( float cashTendered )
 	{
 		sale.makePayment( cashTendered );
 	}
-
-	private boolean isNewSale()
-	{
-		return ( sale == null ) || ( sale.isComplete() );
-	}
-
-        public float getTotal()
-        {
-          return sale.total();
-        }
 
 	public Sale getSale()
 	{

@@ -2,15 +2,17 @@ package domain;
 
 import java.util.*;
 
+import workflow.POST;
+
 public class Sale {
-	private Vector lineItems = new Vector();
+	Vector lineItems = new Vector();
 	private Date date = new Date();
 	private boolean isComplete = false;
-	private Payment payment;
+	public Payment payment;
 
 	public float getBalance()
 	{
-		return payment.getAmount() - total();
+		return payment.getAmount() - total(payment);
 	}
 
 	public void becomeComplete()
@@ -20,16 +22,21 @@ public class Sale {
 
 	public boolean isComplete() { return isComplete; }
 
-	public void makeLineItem( ProductSpecification spec, int quantity )
+	public void makePayment( float cashTendered )
 	{
-		lineItems.addElement( new SaleLineItem( spec, quantity ) );
+		payment = new Payment( cashTendered );
 	}
 
-	public float total()
+	public float total(Payment payment)
 	{
 		float total = 0;
 		Enumeration	e = lineItems.elements();
+	
+		total = contadorTotal(total, e);
+		return total;
+	}
 
+	private float contadorTotal(float total, Enumeration e) {
 		while( e.hasMoreElements() )
 			{
 			total += ( (SaleLineItem) e.nextElement() ).subtotal();
@@ -37,8 +44,13 @@ public class Sale {
 		return total;
 	}
 
-	public void makePayment( float cashTendered )
+	public float getTotal(POST post)
 	{
-		payment = new Payment( cashTendered );
+	  return total(payment);
+	}
+
+	public boolean isNewSale()
+	{
+		return ( this == null ) || ( isComplete() );
 	}
 }

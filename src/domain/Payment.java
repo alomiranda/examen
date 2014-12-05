@@ -1,6 +1,7 @@
 package domain;
 
-class Payment {
+
+public class Payment {
   private float amount;
 
   public Payment(float cashTendered) {

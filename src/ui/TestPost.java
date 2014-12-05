@@ -22,7 +22,7 @@ class TestPost {
 		System.out.println("Finalizo la venta...");
 		post.endSale();
 
-		System.out.println("Total de la venta..."+post.getSale().total());
+		System.out.println("Total de la venta..."+post.getSale().total(post.getSale().payment));
 
 		System.out.println("Pago con 650 pesos...");
 		post.makePayment(650);
